@@ -72,6 +72,15 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script>
         $(document).ready(function(){
+
+          // Disable return in the text field to prevent users from navigating anywhere.
+          $("#postcode").keypress(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
           $.getJSON("/data/postcodes.json", function(json) {
             postcodeData = json; // Load the postcode JSON in to postcodeData
           });
