@@ -128,7 +128,7 @@
                   // Nothing found for this postcode.
                   $("div").remove(".callout");
                   if (postcodeInput.length >= 6){
-                      $("#findform").append("<div class=\"callout alert\" id=\"postcoderesults\">Looks like we can't find a Keep Safe coordinator for " + postcodeInput + ".  If you believe you should be covered by Keep Safe Essex, please email <a href=\"mailto:Richard@cmspace.org?subject=%5BKeep%20Safe%20Essex%20%5D%20Postcode%20Data%20Issue&body=" + postcodeInput + "%0A%28You%20can%20send%20this%20message%20as-is.%20I%20will%20know%20what%20it%20means%21%29\">Richard@cmspace.org</a> with your postcode.</div>");
+                      $("#findform").append("<div class=\"callout alert\" id=\"postcoderesults\">Looks like we can't find a Keep Safe coordinator for the postcode of " + postcodeInput + ".  If you believe you should be covered by Keep Safe Essex, please email <a href=\"mailto:Richard@cmspace.org?subject=%5BKeep%20Safe%20Essex%20%5D%20Postcode%20Data%20Issue&body=" + postcodeInput + "%0A%28You%20can%20send%20this%20message%20as-is.%20I%20will%20know%20what%20it%20means%21%29\">Richard@cmspace.org</a> with your postcode.</div>");
                   }
                   return;
                 }
