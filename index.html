@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keep Safe Essex</title>
+    <link rel="stylesheet" href="css/foundation.css"> <!-- TODO: Trim down to only essential -->
+    <link rel="stylesheet" href="css/app.css"> <!-- TODO: Merge these two in to one custom CSS file -->
+  </head>
+  <body>
+
+    <div class="row medium-8 large-7 columns">
+    <div class="center"> <!-- TODO: Build a better CSS solution -->
+		    <h1>Find a safe place</h1><!-- TODO: Find a better header solution -->
+    </div>
+    <div class="center">
+      <!-- TODO: Make an SVG version of the Keep Safe logo -->
+      <img src="/img/keepsafe.png"/>
+      <h4>Keep Safe Essex</h4>
+    </div>
+        <div class="row">
+          <div class="large-12 columns">
+          </br><!-- TODO: Replace with CSS solution -->
+              <p>Keep Safe Essex is working across Essex to make a difference for vulnerable people.  The Keep Safe scheme has already helped more than 3,000 people including people with a learning disability, older people and people with mental ill health in Essex to feel safer in their towns and communities.</p>
+              <p>There are in excess of 400 Keep Safe venues across town centres in Essex, and by carrying Keep Safe cards and key rings or key tags which show essential telephone numbers, vulnerable people who feel unwell, unsafe or disorientated can go to a Keep Safe venue and ask for help to contact someone they trust. The free scheme has received dedicated support from local traders and businesses offering to act as Keep Safe venues and displaying the Keep Safe logo, as well as support from local authorities and community organisations.</p>
+              <p>Keep Safe was first launched by the CAVS Be Safer Project and Braintree District Council in 2012 and has been so successful that it has been replicated in town centres  across Essex. Keep Safe card holders can now visit areas away from their home towns and enjoy even more independence, knowing that they can call on a Keep Safe venue, if needed.</p>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row medium-6 large-5 columns contentbox" id="findform">
+        <div class="center">
+          <img class="iconbump" src="/img/location.png"/>
+        </div>
+            <form id="postcodeform">
+                <div class="center"><h4>Find your regional Keep Safe Essex coordinator to request a pack<br/>or register as a venue</h4></div>
+                <label>Home postcode
+                  <input id="postcode" type="text" placeholder="CM1 1AA">
+                </label>
+          </form>
+          <div id="postcoderesults"><small>Your details will not be transmitted anywhere.</small></div>
+      </div>
+      </br> <!-- TODO: Replace with CSS solution -->
+
+      <div class="row medium-6 large-5 columns">
+        <a href="#"> <!-- TODO: Fix backend service and relink this -->
+          <div class="contentbox center">
+            <img class="iconbump" src="/img/pack.png"/>
+            <h4>Find out what a Keep Safe pack contains</h4>
+          </div>
+        </a>
+      </div>
+
+    </br>
+
+      <div class="row medium-6 large-5 columns">
+        <a href="#"> <!-- TODO: Decide what we want on this page and build it -->
+          <div class="contentbox center">
+            <img class="iconbump" src="/img/info.png"/>
+            <h4>Learn more about Keep Safe Essex</h4>
+          </div>
+        </a>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns center">
+          <small>Made by RichardR of <a href="http://cmspace.org/">Chelmsford Makerspace</a>.<br/>No information entered on this page is transmitted to any server.<br/></small>
+        </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script>
+        $(document).ready(function(){
+          $.getJSON("/data/postcodes.json", function(json) {
+            postcodeData = json; // Load the postcode JSON in to postcodeData
+          });
+          // Local test code
+          //postcodeData = JSON.parse('[{ "postcode":"CM111", "office":"Basildon" },{ "postcode":"CM112", "office":"Testford" },{ "postcode":"CM112", "office":"Test2ford" },{ "postcode":"CB97", "office":"Braintree" },{ "postcode":"SS71", "office":"Castle Point" }]');
+          function getOfficeByPostcode(code) {
+            return postcodeData.filter(
+                function(postcodeData){ return code.indexOf( postcodeData.postcode ) > -1 }
+            );
+          }
+
+          $.getJSON("/data/regionalOffices.json", function(json) {
+            officeData = json; // Load the postcode JSON in to postcodeData
+          });
+          // Local test code
+          //officeData = JSON.parse('[{ "office":"Basildon", "name":"Tessa McNally", "email":"Tessa.Mcnally@basildon.gov.uk" },{ "office":"Braintree", "name":"Kryshia Fuller", "email":"kryfu@braintree.gov.uk" },{ "office":"Braintree", "name":"Kryshia Fuller2", "email":"kryfu@braintree.gov.uk2" },{ "office":"Castle Point", "name":"Helen Collins", "email":"hcollins@castlepoint.gov.uk"}]')
+          function getCoordinatorByOffice(office) {
+            return officeData.filter(
+              function(officeData){ return officeData.office == office }
+            )
+          }
+          console.log("Init complete!");
+
+          $("#postcode").on('input', function(){
+            var postcodeInput = $("#postcode").val()
+            postcodeInput = postcodeInput.replace(/[^A-Za-z0-9]/g, "");
+            postcodeInput = postcodeInput.toUpperCase();
+
+            try {
+              var possibleOffices = getOfficeByPostcode(postcodeInput);
+              try {
+                var postcodeOutput = getCoordinatorByOffice(possibleOffices[0].office);
+                if (postcodeOutput.length <= 0 ) {
+                  return err;
+                }
+                // We found at least one coordinator for this region, render all the possibilities.
+                $("div").remove(".callout");
+                for (var i = 0; i < postcodeOutput.length; i++) {
+                  $("#findform").append("<div class=\"callout warning\ id=\"postcoderesults\">Your Keep Safe coordinator for <b>" + postcodeOutput[i].office + "</b> is <b>" + postcodeOutput[i].name + "</b>, who can be reached at " + "<a href=mailto:\""+ postcodeOutput[i].email + "\">" + postcodeOutput[i].email + "</a>.</div>");
+                }
+              }
+              catch(err) {
+                // Error catcher for coordinator finder and renderer.
+                if (possibleOffices.length == 0){
+                  // Nothing found for this postcode.
+                  $("div").remove(".callout");
+                  if (postcodeInput.length >= 6){
+                      $("#findform").append("<div class=\"callout alert\" id=\"postcoderesults\">Looks like we can't find a Keep Safe coordinator for " + postcodeInput + ".  If you believe you should be covered by Keep Safe Essex, please email <a href=\"mailto:Richard@cmspace.org?subject=%5BKeep%20Safe%20Essex%20%5D%20Postcode%20Data%20Issue&body=" + postcodeInput + "%0A%28You%20can%20send%20this%20message%20as-is.%20I%20will%20know%20what%20it%20means%21%29\">Richard@cmspace.org</a> with your postcode.</div>");
+                  }
+                  return;
+                }
+                var possibleOfficesString = ""
+                for (var i = 0; i < possibleOffices.length; i++) {
+                  if (i !== 0){
+                    possibleOfficesString += " and " + possibleOffices[i].office;
+                  }
+                  else {
+                    possibleOfficesString += possibleOffices[i].office;
+                  }
+                }
+                $("div").remove(".callout");
+                $("#findform").append("<div class=\"callout alert\" id=\"postcoderesults\">Found " + possibleOfficesString + " for " + postcodeInput + ", but no coordinator was listed for that office. This is a data issue. Please email <a href=\"mailto:Richard@cmspace.org?subject=%5BKeep%20Safe%20Essex%20%5D%20Coordinator%20Data%20Issue&body=" + postcodeInput + "%0A%28You%20can%20send%20this%20message%20as-is.%20I%20will%20know%20what%20it%20means%21%29\">Richard@cmspace.org</a> with your postcode.</div>");
+                return;
+              }
+            }
+            catch(err) {
+              return;
+            }
+          });
+        });
+      </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+.contentbox {
+  border-width: 4px;
+  border-color: #f3e560;
+  border-style: solid;
+  border-radius: 15px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.center{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.iconbump {
+  margin-bottom: 18px;
+}
+a {
+  color: #424242;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+}
+a:hover {
+  color: #000000;
+}

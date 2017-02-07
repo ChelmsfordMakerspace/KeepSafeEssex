@@ -1,0 +1,15 @@
+[
+  { "office":"Basildon", "name":"Tessa McNally", "email":"Tessa.Mcnally@basildon.gov.uk" },
+  { "office":"Braintree", "name":"Kryshia Fuller", "email":"kryfu@braintree.gov.uk" },
+  { "office":"Brentwood", "name":"Tracy Lilley", "email":"tracey.lilley@brentwood.gov.uk" },
+  { "office":"Castle Point", "name":"Helen Collins", "email":"hcollins@castlepoint.gov.uk"},
+  { "office":"Chelmsford", "name":"Rachel Kearn", "email":"rachel.kearn@chelmsfordcitycouncil.org.uk"},
+  { "office":"Colchester", "name":"Caroline Clarke", "email":"caroline.clarke@colchester.gov.uk"},
+  { "office":"Harlow", "name":"Becci Court", "email":"becci.court@harlow.gov.uk"},
+  { "office":"Maldon", "name":"Chris Rust", "email":"chris.rust@maldon.gov.uk"},
+  { "office":"Rochford", "name":"Graham Browne", "email":"graham.browne@rochford.gov.uk"},
+  { "office":"Southend-on-Sea", "name":"Heather Wilson", "email":"info@shieldsparliament.co.uk"},
+  { "office":"Tendring", "name":"Charlotte Root", "email":"croot@tendringdc.gov.uk"},
+  { "office":"Thurrock", "name":"Kate Knight", "email":"kate.knight@batias.com"},
+  { "office":"Uttlesford", "name":"Fiona Gardiner", "email":"fgardiner@uttlesford.gov.uk"}
+]
